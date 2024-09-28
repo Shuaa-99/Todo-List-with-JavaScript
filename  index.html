@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #1e1e1e; /* Dark background */
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 100px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 48px;
+        color: gray;
+        margin-bottom: 30px;
+        text-transform: lowercase;
+      }
+
+      .todo-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .todo-item:last-child {
+        border-bottom: none;
+      }
+
+      .todo-item input[type="checkbox"] {
+        appearance: none;
+        border: 2px solid black;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+      }
+
+      .todo-item input[type="checkbox"]:checked {
+        background: black;
+      }
+
+      .todo-item label {
+        flex-grow: 1;
+        margin-left: 10px;
+        font-size: 18px;
+      }
+
+      .delete-todo {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .delete-todo svg {
+        fill: red;
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Form styles */
+      form {
+        display: flex;
+        border: 1px solid black;
+        padding: 8px;
+        border-radius: 5px;
+      }
+
+      input[type="text"] {
+        border: none;
+        flex-grow: 1;
+        font-size: 18px;
+        padding: 5px;
+        outline: none;
+      }
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="app-title">todos</h1>
+      <ul class="todo-list js-todo-list"></ul>
+
+      <form class="todo-form js-form">
+        <input
+          autofocus
+          type="text"
+          aria-label="Enter a new todo item"
+          placeholder="E.g. Build a web app"
+          class="js-todo-input"
+          required
+        />
+      </form>
+    </div>
+
+    <!-- إضافة تعريف رمز سلة المهملات هنا -->
+    <svg style="display: none">
+      <symbol id="delete-icon" viewBox="0 0 24 24">
+        <path
+          d="M3 6h18M6 6v12h12V6m-2 0V4a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2h8zM10 11v6m4-6v6"
+        />
+      </symbol>
+    </svg>
+
+    <script>
+      let todoItems = [];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const ref = localStorage.getItem("todoItemsRef");
+        if (ref) {
+          todoItems = JSON.parse(ref);
+          todoItems.forEach((t) => {
+            renderTodo(t);
+          });
+        }
+      });
+
+      function addTodo(text) {
+        const todo = {
+          text,
+          checked: false,
+          id: Date.now(),
+        };
+        todoItems.push(todo);
+        renderTodo(todo);
+      }
+
+      const form = document.querySelector(".todo-form");
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const input = document.querySelector(".js-todo-input");
+        const text = input.value.trim();
+        if (text !== "") {
+          addTodo(text);
+          input.value = "";
+          input.focus();
+        }
+      });
+
+      function renderTodo(todo) {
+        localStorage.setItem("todoItemsRef", JSON.stringify(todoItems));
+        const list = document.querySelector(".js-todo-list");
+        const item = document.querySelector(`[data-key='${todo.id}']`);
+
+        if (todo.deleted) {
+          if (item) item.remove();
+          if (todoItems.length === 0) list.innerHTML = "";
+          return;
+        }
+
+        const isChecked = todo.checked ? "done" : "";
+        const node = document.createElement("li");
+        node.setAttribute("class", `todo-item ${isChecked}`);
+        node.setAttribute("data-key", todo.id);
+        node.innerHTML = `
+                <input id="${
+                  todo.id
+                }" type="checkbox" class="js-todo-checkbox" ${
+          todo.checked ? "checked" : ""
+        }/>
+                <label for="${todo.id}" class="tick js-tick">${
+          todo.text
+        }</label>
+                <button class="delete-todo js-delete-todo">
+                    <svg><use href="#delete-icon"></use></svg>
+                </button>
+            `;
+
+        if (item) {
+          list.replaceChild(node, item);
+        } else {
+          list.append(node);
+        }
+
+        node
+          .querySelector(".js-todo-checkbox")
+          .addEventListener("change", () => {
+            toggleDone(todo.id);
+          });
+
+        node.querySelector(".js-delete-todo").addEventListener("click", () => {
+          deleteTodo(todo.id);
+        });
+      }
+
+      function toggleDone(key) {
+        const index = todoItems.findIndex((item) => item.id === Number(key));
+        todoItems[index].checked = !todoItems[index].checked;
+        renderTodo(todoItems[index]);
+      }
+
+      function deleteTodo(key) {
+        const index = todoItems.findIndex((item) => item.id === Number(key));
+        const todo = {
+          deleted: true,
+          ...todoItems[index],
+        };
+        todoItems = todoItems.filter((item) => item.id !== Number(key));
+        renderTodo(todo);
+      }
+    </script>
+  </body>
+</html>
