@@ -24,7 +24,7 @@ A sleek and intuitive Todo List application designed to help you manage your tas
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/your-username/todo-list-app.git
+  [  git clone https://github.com/your-username/todo-list-app.git](https://github.com/Shuaa-99/Todo-List-with-JavaScript)
     ```
 2. **Open `index.html` in your browser** to start using the app.
 
