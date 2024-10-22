@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffff;
+    background-image: url('./image.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px #4A3B33;
+}
+
+h1 {
+    text-align: center;
+    color: #4F5E4D;
+}
+
+.todo-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.circle-container {
+    display: flex;
+    margin-right: 10px;
+}
+
+.circle {
+    margin: 0 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.circleRed {
+    border-color: #D32F2F;
+    color: #D32F2F;
+}
+
+.circleYellow {
+    border-color: #FFD600;
+    color: #FFD600;
+}
+
+.circleBlue {
+    border-color: #4285F4;
+    color: #4285F4;
+}
+
+.circleRed:hover {
+    background-color: #E57373;
+}
+
+.circleYellow:hover {
+    background-color: #FFE158;
+}
+
+.circleBlue:hover {
+    background-color: #8AB6F5;
+}
+
+.circle.active {
+    opacity: 0.5;
+}
+
+.circleGreen {
+    border-color: #388E3C;
+    color: #388E3C;
+}
+
+.circleGreen:hover {
+    background-color: #81C784;
+}
+
+.circleOrange {
+    border-color: #F57C00;
+    color: #F57C00;
+}
+
+.circleOrange:hover {
+    background-color: #FFB74D;
+}
+
+.circlePurple {
+    border-color: #7B1FA2;
+    color: #7B1FA2;
+}
+
+.circlePurple:hover {
+    background-color: #BA68C8;
+}
+
+.circle.active {
+    background-color: currentColor;
+    opacity: 0.7;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.todo-input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #4F5E4D;
+    border-radius: 5px;
+}
+
+.addButton {
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    background-color: #4F5E4D;
+    color: white;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: #556B2F;
+}
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.delete-todo {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-todo:hover {
+    background-color: #c82333;
+}
+
+.edit-todo {
+    background-color: #9E9E9E;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-todo:hover {
+    background-color: #BDBDBD;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
